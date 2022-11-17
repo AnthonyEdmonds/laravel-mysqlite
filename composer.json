@@ -1,0 +1,38 @@
+{
+    "name": "anthonyedmonds/laravel-mysqlite",
+    "description": "Generate MySQL and Sqlite3 expressions on the fly based on the active database",
+    "keywords": ["laravel", "mysql", "sqlite", "database"],
+    "type": "library",
+    "homepage": "https://github.com/AnthonyEdmonds/laravel-mysqlite",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Anthonyedmonds\\LaravelMySqlite\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "AnthonyEdmonds\\LaravelMySqlite\\": "tests/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Anthony Edmonds",
+            "email": "contact@anthonyedmonds.me",
+            "homepage": "https://anthonyedmonds.me",
+            "role": "Developer"
+        }
+    ],
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "config": {
+        "sort-packages": true
+    },
+    "require": {
+        "php": "^8",
+        "illuminate/support": "^9.40"
+    },
+    "require-dev": {
+        "orchestra/testbench": "^7.13"
+    }
+}
