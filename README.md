@@ -15,15 +15,16 @@ Calling the `MySqlite::`  helper will provide the correct syntax for the default
 
 Laravel MySqlite provides syntax for the following MySQL/SQLite conversions:
 
-| MySqlite Method        | MySQL Syntax    | SQLite Syntax | Notes |
-| ---------------------- | --------------- | ------------- | ----- |
-| MySqlite::cast()       | `CAST()`        | `CAST()`      | Must be a value from `MySqlite::CASTS_MYSQL` |
-| MySqlite::concat()     | `CONCAT()`      | `\|\|`          | Pass literal strings with quotation marks, such as `'"String"'` |
-| MySqlite::day()        | `DAY()`         | `STRFTIME()`  | |
-| MySqlite::dateFormat() | `DATE_FORMAT()` | `STRFTIME()`  | Use date formats supported by both MySQL and SQLite |
-| MySqlite::hour()       | `HOUR()`        | `STRFTIME()`  | |
-| MySqlite::month()      | `MONTH()`       | `STRFTIME()`  | |
-| MySqlite::year()       | `YEAR()`        | `STRFTIME()`  | |
+| MySqlite Method              | MySQL Syntax     | SQLite Syntax               | Notes |
+| ---------------------------- | ---------------- | --------------------------- | ----- |
+| MySqlite::setAutoIncrement() | `ALTER TABLE...` | `UPDATE sqlite_sequence...` | Used as a standalone statement |
+| MySqlite::cast()             | `CAST()`         | `CAST()`                    | Must be a value from `MySqlite::CASTS_MYSQL` |
+| MySqlite::concat()           | `CONCAT()`       | `\|\|`                      | Pass literal strings with quotation marks, such as `'"String"'` |
+| MySqlite::day()              | `DAY()`          | `STRFTIME()`                | |
+| MySqlite::dateFormat()       | `DATE_FORMAT()`  | `STRFTIME()`                | Use date formats supported by both MySQL and SQLite |
+| MySqlite::hour()             | `HOUR()`         | `STRFTIME()`                | |
+| MySqlite::month()            | `MONTH()`        | `STRFTIME()`                | |
+| MySqlite::year()             | `YEAR()`         | `STRFTIME()`                | |
 
 The helper returns a `DB::raw` expression, so you may use it directly inside queries:
 
