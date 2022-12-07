@@ -123,6 +123,13 @@ class MySqlite
     }
 
     /* Utilities ============================= */
+    public static function setAutoIncrement(string $table, int $value = 1): Expression
+    {
+        return DB::getDefaultConnection() === 'sqlite'
+            ? DB::raw("UPDATE sqlite_sequence SET seq = $value WHERE name = '$table'")
+            : DB::raw("ALTER TABLE $table AUTO_INCREMENT = $value");
+    }
+    
     protected static function as(string|null $as = null): string
     {
         return $as !== null ? " AS $as" : '';
