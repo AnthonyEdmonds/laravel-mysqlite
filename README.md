@@ -8,23 +8,24 @@ Calling the `MySqlite::`  helper will provide the correct syntax for the default
 
 ## Installation
 
-1. Install via Composer: `composer require anthonyedmonds\laravel-mysqlite`
+1. Install via Composer: `composer require anthonyedmonds/laravel-mysqlite`
 2. Use in your code: `use AnthonyEdmonds\LaravelMySqlite\MySqlite`
 
 ## Usage
 
 Laravel MySqlite provides syntax for the following MySQL/SQLite conversions:
 
-| MySqlite Method              | MySQL Syntax     | SQLite Syntax               | Notes |
-| ---------------------------- | ---------------- | --------------------------- | ----- |
-| MySqlite::setAutoIncrement() | `ALTER TABLE...` | `UPDATE sqlite_sequence...` | Used as a standalone statement |
-| MySqlite::cast()             | `CAST()`         | `CAST()`                    | Must be a value from `MySqlite::CASTS_MYSQL` |
-| MySqlite::concat()           | `CONCAT()`       | `\|\|`                      | Pass literal strings with quotation marks, such as `'"String"'` |
-| MySqlite::day()              | `DAY()`          | `STRFTIME()`                | |
-| MySqlite::dateFormat()       | `DATE_FORMAT()`  | `STRFTIME()`                | Use date formats supported by both MySQL and SQLite |
-| MySqlite::hour()             | `HOUR()`         | `STRFTIME()`                | |
-| MySqlite::month()            | `MONTH()`        | `STRFTIME()`                | |
-| MySqlite::year()             | `YEAR()`         | `STRFTIME()`                | |
+| MySqlite Method              | MySQL Syntax     | SQLite Syntax                  | Notes |
+|------------------------------| ---------------- |--------------------------------| ----- |
+| MySqlite::cast()             | `CAST()`         | `CAST()`                       | Must be a value from `MySqlite::CASTS_MYSQL` |
+| MySqlite::concat()           | `CONCAT()`       | `\|\|`                         | Pass literal strings with quotation marks, such as `'"String"'` |
+| MySqlite::day()              | `DAY()`          | `STRFTIME()`                   | |
+| MySqlite::dateFormat()       | `DATE_FORMAT()`  | `STRFTIME()`                   | Use date formats supported by both MySQL and SQLite |
+| MySqlite::hour()             | `HOUR()`         | `STRFTIME()`                   | |
+| MySqlite::month()            | `MONTH()`        | `STRFTIME()`                   | |
+| MySqlite::setAutoIncrement() | `ALTER TABLE...` | `UPDATE sqlite_sequence...`    | Used as a standalone statement |
+| MySqlite::trim()             | `TRIM()`         | `TRIM()`, `LTRIM()`, `RTRIM()` | Pass literal strings with quotation marks, such as `'"String"'` |
+| MySqlite::year()             | `YEAR()`         | `STRFTIME()`                   | |
 
 The helper returns a `DB::raw` expression, so you may use it directly inside queries:
 
@@ -34,6 +35,7 @@ DB::table('users')
         MySqlite::concat(['users.first_name', '" "', 'users.last_name'], 'name'),
         MySqlite::dateFormat('users.created_at', '%d/%m/%Y', 'formatted_date'),
         MySqlite::day('AVG(users.updated_at)', 'aggregated_day'),
+        MySqlite::trim('", "', 'users.aliases_list', 'formatted_aliases', MySqlite::TRIM_TRAILING),
     ])
     ->groupBy([
         MySqlite::year('users.updated_at')
@@ -53,7 +55,7 @@ The column/columns value of a method accepts a string/array of:
 
 The optional `$as` parameter adds a column alias when set:
 
-`MySqlite::hour('users.created_at', 'potato') === YEAR(users.created_at) AS potato`
+`MySqlite::hour('users.created_at', 'potato') === HOUR(users.created_at) AS potato`
 
 ## Roadmap
 

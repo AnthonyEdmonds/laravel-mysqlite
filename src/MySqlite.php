@@ -51,6 +51,17 @@ class MySqlite
         self::UNSIGNED => 'INTEGER',
         self::BINARY => 'TEXT',
     ];
+    
+    /* Strings =============================== */
+    const TRIM_BOTH = 'BOTH';
+    const TRIM_LEADING = 'LEADING';
+    const TRIM_TRAILING = 'TRAILING';
+    
+    const TRIM_MODES = [
+        self::TRIM_BOTH,
+        self::TRIM_LEADING,
+        self::TRIM_TRAILING,
+    ];
 
     public static function cast(string $column, string $type, string $as = null): Expression
     {
@@ -113,6 +124,29 @@ class MySqlite
     }
 
     /* Strings =============================== */
+    public static function trim(
+        string $needle,
+        string|Expression $haystack,
+        string $as = null,
+        string $side = self::TRIM_BOTH,
+    ): Expression {
+        
+        if (DB::getDefaultConnection() === 'sqlite') {
+            $method = match($side) {
+                self::TRIM_LEADING => 'LTRIM',
+                self::TRIM_TRAILING => 'RTRIM',
+                default => 'TRIM',
+            };
+            
+            $sql = "$method($needle, $haystack)" . self::as($as);
+            
+        } else {
+            $sql = "TRIM($side, $needle FROM $haystack)" . self::as($as);
+        }
+        
+        return DB::raw($sql);
+    }
+    
     public static function concat(array $columns, string $as = null): Expression
     {
         return DB::raw(
