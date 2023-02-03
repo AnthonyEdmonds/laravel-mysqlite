@@ -53,7 +53,7 @@ The column/columns value of a method accepts a string/array of:
 
 The optional `$as` parameter adds a column alias when set:
 
-`MySqlite::hour('users.created_at', 'potato') === YEAR(users.created_at) AS potato`
+`MySqlite::hour('users.created_at', 'potato') === HOUR(users.created_at) AS potato`
 
 ## Roadmap
 
