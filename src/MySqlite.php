@@ -141,7 +141,7 @@ class MySqlite
             $sql = "$method($needle, $haystack)" . self::as($as);
             
         } else {
-            $sql = "TRIM($side, $needle FROM $haystack)" . self::as($as);
+            $sql = "TRIM($side $needle FROM $haystack)" . self::as($as);
         }
         
         return DB::raw($sql);
