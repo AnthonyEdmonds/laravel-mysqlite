@@ -160,7 +160,7 @@ class MySqlite
     {
         return DB::raw(
             DB::getDefaultConnection() === 'sqlite'
-                ? self::trim('""', $column, $as)
+                ? self::trim('""""', $column, $as)
                 : "JSON_UNQUOTE($column)" . self::as($as)
         );
     }
