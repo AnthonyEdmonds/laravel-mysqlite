@@ -138,7 +138,7 @@ class MySqlite
                 default => 'TRIM',
             };
             
-            $sql = "$method($needle, $haystack)" . self::as($as);
+            $sql = "$method($haystack, $needle)" . self::as($as);
             
         } else {
             $sql = "TRIM($side $needle FROM $haystack)" . self::as($as);
