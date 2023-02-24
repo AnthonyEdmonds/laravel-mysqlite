@@ -155,6 +155,15 @@ class MySqlite
                 : 'CONCAT(' . implode(',', $columns) . ')' . self::as($as)
         );
     }
+    
+    public static function jsonUnquote(string $column, string $as = null): Expression
+    {
+        return DB::raw(
+            DB::getDefaultConnection() === 'sqlite'
+                ? self::trim('"', $column, $as)
+                : "JSON_UNQUOTE($column)" . self::as($as)
+        );
+    }
 
     /* Utilities ============================= */
     public static function setAutoIncrement(string $table, int $value = 1): Expression
