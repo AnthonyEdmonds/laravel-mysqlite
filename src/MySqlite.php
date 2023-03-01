@@ -130,9 +130,8 @@ class MySqlite
         string $as = null,
         string $side = self::TRIM_BOTH,
     ): Expression {
-        
         if (DB::getDefaultConnection() === 'sqlite') {
-            $method = match($side) {
+            $method = match ($side) {
                 self::TRIM_LEADING => 'LTRIM',
                 self::TRIM_TRAILING => 'RTRIM',
                 default => 'TRIM',
