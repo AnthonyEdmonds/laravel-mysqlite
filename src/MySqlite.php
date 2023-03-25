@@ -167,11 +167,10 @@ class MySqlite
 
     public static function jsonUnquote(string $column, string $as = null): Expression
     {
-        return DB::raw(
+        return 
             DB::getDefaultConnection() === 'sqlite'
                 ? self::trim('""""', $column, $as)
-                : "JSON_UNQUOTE($column)".self::as($as)
-        );
+                : DB::raw("JSON_UNQUOTE($column)".self::as($as));
     }
 
     /* Utilities ============================= */
