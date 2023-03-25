@@ -13,19 +13,28 @@ use Illuminate\Support\Facades\DB;
  * Use a "quotation mark" when passing literal strings
  *
  * @author Anthony Edmonds
+ *
  * @link https://github.com/AnthonyEdmonds/laravel-mysqlite
  */
 class MySqlite
 {
     /* Casts ================================= */
     const DATE = 'DATE';
+
     const DATETIME = 'DATETIME';
+
     const DECIMAL = 'DECIMAL';
+
     const TIME = 'TIME';
+
     const CHAR = 'CHAR';
+
     const NCHAR = 'NCHAR';
+
     const SIGNED = 'SIGNED';
+
     const UNSIGNED = 'UNSIGNED';
+
     const BINARY = 'BINARY';
 
     const CASTS_MYSQL = [
@@ -51,12 +60,14 @@ class MySqlite
         self::UNSIGNED => 'INTEGER',
         self::BINARY => 'TEXT',
     ];
-    
+
     /* Strings =============================== */
     const TRIM_BOTH = 'BOTH';
+
     const TRIM_LEADING = 'LEADING';
+
     const TRIM_TRAILING = 'TRAILING';
-    
+
     const TRIM_MODES = [
         self::TRIM_BOTH,
         self::TRIM_LEADING,
@@ -71,8 +82,8 @@ class MySqlite
 
         return DB::raw(
             DB::getDefaultConnection() === 'sqlite'
-                ? "CAST($column AS " . self::CASTS_SQLITE[$type] . ")" . self::as($as)
-                : "CAST($column AS $type)" . self::as($as)
+                ? "CAST($column AS ".self::CASTS_SQLITE[$type].')'.self::as($as)
+                : "CAST($column AS $type)".self::as($as)
         );
     }
 
@@ -82,8 +93,8 @@ class MySqlite
     {
         return DB::raw(
             DB::getDefaultConnection() === 'sqlite'
-                ? "STRFTIME('$format', $column)" . self::as($as)
-                : "DATE_FORMAT($column, '$format')" . self::as($as)
+                ? "STRFTIME('$format', $column)".self::as($as)
+                : "DATE_FORMAT($column, '$format')".self::as($as)
         );
     }
 
@@ -91,8 +102,8 @@ class MySqlite
     {
         return DB::raw(
             DB::getDefaultConnection() === 'sqlite'
-                ? "STRFTIME('%Y', $column)" . self::as($as)
-                : "YEAR($column)" . self::as($as)
+                ? "STRFTIME('%Y', $column)".self::as($as)
+                : "YEAR($column)".self::as($as)
         );
     }
 
@@ -100,8 +111,8 @@ class MySqlite
     {
         return DB::raw(
             DB::getDefaultConnection() === 'sqlite'
-                ? "STRFTIME('%m', $column)" . self::as($as)
-                : "MONTH($column)" . self::as($as)
+                ? "STRFTIME('%m', $column)".self::as($as)
+                : "MONTH($column)".self::as($as)
         );
     }
 
@@ -109,8 +120,8 @@ class MySqlite
     {
         return DB::raw(
             DB::getDefaultConnection() === 'sqlite'
-                ? "STRFTIME('%d', $column)" . self::as($as)
-                : "DAY($column)" . self::as($as)
+                ? "STRFTIME('%d', $column)".self::as($as)
+                : "DAY($column)".self::as($as)
         );
     }
 
@@ -118,8 +129,8 @@ class MySqlite
     {
         return DB::raw(
             DB::getDefaultConnection() === 'sqlite'
-                ? "STRFTIME('%H', $column)" . self::as($as)
-                : "HOUR($column)" . self::as($as)
+                ? "STRFTIME('%H', $column)".self::as($as)
+                : "HOUR($column)".self::as($as)
         );
     }
 
@@ -136,32 +147,30 @@ class MySqlite
                 self::TRIM_TRAILING => 'RTRIM',
                 default => 'TRIM',
             };
-            
-            $sql = "$method($haystack, $needle)" . self::as($as);
-            
+
+            $sql = "$method($haystack, $needle)".self::as($as);
         } else {
-            $sql = "TRIM($side $needle FROM $haystack)" . self::as($as);
+            $sql = "TRIM($side $needle FROM $haystack)".self::as($as);
         }
-        
+
         return DB::raw($sql);
     }
-    
+
     public static function concat(array $columns, string $as = null): Expression
     {
         return DB::raw(
             DB::getDefaultConnection() === 'sqlite'
-                ? implode(' || ', $columns) . self::as($as)
-                : 'CONCAT(' . implode(',', $columns) . ')' . self::as($as)
+                ? implode(' || ', $columns).self::as($as)
+                : 'CONCAT('.implode(',', $columns).')'.self::as($as)
         );
     }
-    
+
     public static function jsonUnquote(string $column, string $as = null): Expression
     {
-        return DB::raw(
+        return 
             DB::getDefaultConnection() === 'sqlite'
                 ? self::trim('""""', $column, $as)
-                : "JSON_UNQUOTE($column)" . self::as($as)
-        );
+                : DB::raw("JSON_UNQUOTE($column)".self::as($as));
     }
 
     /* Utilities ============================= */
@@ -171,7 +180,7 @@ class MySqlite
             ? DB::raw("UPDATE sqlite_sequence SET seq = $value WHERE name = '$table'")
             : DB::raw("ALTER TABLE $table AUTO_INCREMENT = $value");
     }
-    
+
     protected static function as(string|null $as = null): string
     {
         return $as !== null ? " AS $as" : '';

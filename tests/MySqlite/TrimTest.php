@@ -11,7 +11,7 @@ class TrimTest extends TestCase
     {
         $this->asMySql();
 
-        $this->assertEquals(
+        $this->assertQueryExpression(
             'TRIM(BOTH "," FROM my_column)',
             MySqlite::trim('","', 'my_column'),
         );
@@ -21,7 +21,7 @@ class TrimTest extends TestCase
     {
         $this->asMySql();
 
-        $this->assertEquals(
+        $this->assertQueryExpression(
             'TRIM(LEADING "," FROM my_column) AS my_alias',
             MySqlite::trim(
                 '","',
@@ -36,7 +36,7 @@ class TrimTest extends TestCase
     {
         $this->asSqlite();
 
-        $this->assertEquals(
+        $this->assertQueryExpression(
             'TRIM(my_column, ",")',
             MySqlite::trim('","', 'my_column'),
         );
@@ -46,7 +46,7 @@ class TrimTest extends TestCase
     {
         $this->asSqlite();
 
-        $this->assertEquals(
+        $this->assertQueryExpression(
             'LTRIM(my_column, ",") AS my_alias',
             MySqlite::trim(
                 '","',

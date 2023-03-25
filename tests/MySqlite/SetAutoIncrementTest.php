@@ -11,17 +11,17 @@ class SetAutoIncrementTest extends TestCase
     {
         $this->asMySql();
 
-        $this->assertEquals(
+        $this->assertQueryExpression(
             'ALTER TABLE my_table AUTO_INCREMENT = 3',
             MySqlite::setAutoIncrement('my_table', 3)
         );
     }
-    
+
     public function testCreatesSqlite(): void
     {
         $this->asSqlite();
 
-        $this->assertEquals(
+        $this->assertQueryExpression(
             'UPDATE sqlite_sequence SET seq = 3 WHERE name = \'my_table\'',
             MySqlite::setAutoIncrement('my_table', 3)
         );

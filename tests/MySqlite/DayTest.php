@@ -11,7 +11,7 @@ class DayTest extends TestCase
     {
         $this->asMySql();
 
-        $this->assertEquals(
+        $this->assertQueryExpression(
             'DAY(my_column)',
             MySqlite::day('my_column'),
         );
@@ -21,7 +21,7 @@ class DayTest extends TestCase
     {
         $this->asMySql();
 
-        $this->assertEquals(
+        $this->assertQueryExpression(
             'DAY(my_column) AS my_alias',
             MySqlite::day('my_column', 'my_alias'),
         );
@@ -31,7 +31,7 @@ class DayTest extends TestCase
     {
         $this->asSqlite();
 
-        $this->assertEquals(
+        $this->assertQueryExpression(
             'STRFTIME(\'%d\', my_column)',
             MySqlite::day('my_column'),
         );
@@ -41,7 +41,7 @@ class DayTest extends TestCase
     {
         $this->asSqlite();
 
-        $this->assertEquals(
+        $this->assertQueryExpression(
             'STRFTIME(\'%d\', my_column) AS my_alias',
             MySqlite::day('my_column', 'my_alias'),
         );

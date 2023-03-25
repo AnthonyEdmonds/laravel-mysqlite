@@ -4,6 +4,7 @@ namespace AnthonyEdmonds\LaravelMySqlite\Tests\MySqlite;
 
 use AnthonyEdmonds\LaravelMySqlite\MySqlite;
 use AnthonyEdmonds\LaravelMySqlite\Tests\TestCase;
+use Illuminate\Database\Query\Grammars\Grammar;
 
 class CastTest extends TestCase
 {
@@ -11,7 +12,7 @@ class CastTest extends TestCase
     {
         $this->expectException(\ErrorException::class);
         $this->expectExceptionMessage('Potato is not a recognised MySQL cast type');
-        
+
         MySqlite::cast('my_column', 'Potato');
     }
 
@@ -19,17 +20,17 @@ class CastTest extends TestCase
     {
         $this->asMySql();
         
-        $this->assertEquals(
+        $this->assertQueryExpression(
             'CAST(my_column AS CHAR)',
             MySqlite::cast('my_column', MySqlite::CHAR),
         );
     }
-    
+
     public function testAppendsMySqlAs(): void
     {
         $this->asMySql();
 
-        $this->assertEquals(
+        $this->assertQueryExpression(
             'CAST(my_column AS CHAR) AS my_alias',
             MySqlite::cast('my_column', MySqlite::CHAR, 'my_alias'),
         );
@@ -39,7 +40,7 @@ class CastTest extends TestCase
     {
         $this->asSqlite();
 
-        $this->assertEquals(
+        $this->assertQueryExpression(
             'CAST(my_column AS TEXT)',
             MySqlite::cast('my_column', MySqlite::CHAR),
         );
@@ -49,7 +50,7 @@ class CastTest extends TestCase
     {
         $this->asSqlite();
 
-        $this->assertEquals(
+        $this->assertQueryExpression(
             'CAST(my_column AS TEXT) AS my_alias',
             MySqlite::cast('my_column', MySqlite::CHAR, 'my_alias'),
         );
