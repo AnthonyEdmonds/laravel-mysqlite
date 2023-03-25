@@ -11,7 +11,7 @@ class DateFormatTest extends TestCase
     {
         $this->asMySql();
 
-        $this->assertEquals(
+        $this->assertQueryExpression(
             'DATE_FORMAT(my_column, \'format\')',
             MySqlite::dateFormat('my_column', 'format'),
         );
@@ -21,7 +21,7 @@ class DateFormatTest extends TestCase
     {
         $this->asMySql();
 
-        $this->assertEquals(
+        $this->assertQueryExpression(
             'DATE_FORMAT(my_column, \'format\') AS my_alias',
             MySqlite::dateFormat('my_column', 'format', 'my_alias'),
         );
@@ -31,7 +31,7 @@ class DateFormatTest extends TestCase
     {
         $this->asSqlite();
 
-        $this->assertEquals(
+        $this->assertQueryExpression(
             'STRFTIME(\'format\', my_column)',
             MySqlite::dateFormat('my_column', 'format'),
         );
@@ -41,7 +41,7 @@ class DateFormatTest extends TestCase
     {
         $this->asSqlite();
 
-        $this->assertEquals(
+        $this->assertQueryExpression(
             'STRFTIME(\'format\', my_column) AS my_alias',
             MySqlite::dateFormat('my_column', 'format', 'my_alias'),
         );

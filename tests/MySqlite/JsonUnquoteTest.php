@@ -11,7 +11,7 @@ class JsonUnquoteTest extends TestCase
     {
         $this->asMySql();
 
-        $this->assertEquals(
+        $this->assertQueryExpression(
             'JSON_UNQUOTE(my_column)',
             MySqlite::jsonUnquote('my_column')
         );
@@ -21,7 +21,7 @@ class JsonUnquoteTest extends TestCase
     {
         $this->asMySql();
 
-        $this->assertEquals(
+        $this->assertQueryExpression(
             'JSON_UNQUOTE(my_column) AS my_alias',
             MySqlite::jsonUnquote('my_column', 'my_alias')
         );
@@ -31,7 +31,7 @@ class JsonUnquoteTest extends TestCase
     {
         $this->asSqlite();
 
-        $this->assertEquals(
+        $this->assertQueryExpression(
             'TRIM(my_column, """")',
             MySqlite::jsonUnquote('my_column')
         );
@@ -41,7 +41,7 @@ class JsonUnquoteTest extends TestCase
     {
         $this->asSqlite();
 
-        $this->assertEquals(
+        $this->assertQueryExpression(
             'TRIM(my_column, """") AS my_alias',
             MySqlite::jsonUnquote('my_column', 'my_alias')
         );

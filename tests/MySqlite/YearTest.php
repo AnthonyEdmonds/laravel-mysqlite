@@ -11,7 +11,7 @@ class YearTest extends TestCase
     {
         $this->asMySql();
 
-        $this->assertEquals(
+        $this->assertQueryExpression(
             'YEAR(my_column)',
             MySqlite::year('my_column'),
         );
@@ -21,7 +21,7 @@ class YearTest extends TestCase
     {
         $this->asMySql();
 
-        $this->assertEquals(
+        $this->assertQueryExpression(
             'YEAR(my_column) AS my_alias',
             MySqlite::year('my_column', 'my_alias'),
         );
@@ -31,7 +31,7 @@ class YearTest extends TestCase
     {
         $this->asSqlite();
 
-        $this->assertEquals(
+        $this->assertQueryExpression(
             'STRFTIME(\'%Y\', my_column)',
             MySqlite::year('my_column'),
         );
@@ -41,7 +41,7 @@ class YearTest extends TestCase
     {
         $this->asSqlite();
 
-        $this->assertEquals(
+        $this->assertQueryExpression(
             'STRFTIME(\'%Y\', my_column) AS my_alias',
             MySqlite::year('my_column', 'my_alias'),
         );

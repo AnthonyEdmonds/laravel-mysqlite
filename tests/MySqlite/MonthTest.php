@@ -11,7 +11,7 @@ class MonthTest extends TestCase
     {
         $this->asMySql();
 
-        $this->assertEquals(
+        $this->assertQueryExpression(
             'MONTH(my_column)',
             MySqlite::month('my_column'),
         );
@@ -21,7 +21,7 @@ class MonthTest extends TestCase
     {
         $this->asMySql();
 
-        $this->assertEquals(
+        $this->assertQueryExpression(
             'MONTH(my_column) AS my_alias',
             MySqlite::month('my_column', 'my_alias'),
         );
@@ -31,7 +31,7 @@ class MonthTest extends TestCase
     {
         $this->asSqlite();
 
-        $this->assertEquals(
+        $this->assertQueryExpression(
             'STRFTIME(\'%m\', my_column)',
             MySqlite::month('my_column'),
         );
@@ -41,7 +41,7 @@ class MonthTest extends TestCase
     {
         $this->asSqlite();
 
-        $this->assertEquals(
+        $this->assertQueryExpression(
             'STRFTIME(\'%m\', my_column) AS my_alias',
             MySqlite::month('my_column', 'my_alias'),
         );

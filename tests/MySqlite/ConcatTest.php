@@ -11,7 +11,7 @@ class ConcatTest extends TestCase
     {
         $this->asMySql();
 
-        $this->assertEquals(
+        $this->assertQueryExpression(
             'CONCAT(first_column,"second_column",third_column)',
             MySqlite::concat(
                 ['first_column', '"second_column"', 'third_column'],
@@ -23,7 +23,7 @@ class ConcatTest extends TestCase
     {
         $this->asMySql();
 
-        $this->assertEquals(
+        $this->assertQueryExpression(
             'CONCAT(first_column,"second_column",third_column) AS my_alias',
             MySqlite::concat(
                 ['first_column', '"second_column"', 'third_column'],
@@ -36,7 +36,7 @@ class ConcatTest extends TestCase
     {
         $this->asSqlite();
 
-        $this->assertEquals(
+        $this->assertQueryExpression(
             'first_column || "second_column" || third_column',
             MySqlite::concat(
                 ['first_column', '"second_column"', 'third_column'],
@@ -48,7 +48,7 @@ class ConcatTest extends TestCase
     {
         $this->asSqlite();
 
-        $this->assertEquals(
+        $this->assertQueryExpression(
             'first_column || "second_column" || third_column AS my_alias',
             MySqlite::concat(
                 ['first_column', '"second_column"', 'third_column'],

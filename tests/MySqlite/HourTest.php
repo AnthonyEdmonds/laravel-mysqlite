@@ -11,7 +11,7 @@ class HourTest extends TestCase
     {
         $this->asMySql();
 
-        $this->assertEquals(
+        $this->assertQueryExpression(
             'HOUR(my_column)',
             MySqlite::hour('my_column'),
         );
@@ -21,7 +21,7 @@ class HourTest extends TestCase
     {
         $this->asMySql();
 
-        $this->assertEquals(
+        $this->assertQueryExpression(
             'HOUR(my_column) AS my_alias',
             MySqlite::hour('my_column', 'my_alias'),
         );
@@ -31,7 +31,7 @@ class HourTest extends TestCase
     {
         $this->asSqlite();
 
-        $this->assertEquals(
+        $this->assertQueryExpression(
             'STRFTIME(\'%H\', my_column)',
             MySqlite::hour('my_column'),
         );
@@ -41,7 +41,7 @@ class HourTest extends TestCase
     {
         $this->asSqlite();
 
-        $this->assertEquals(
+        $this->assertQueryExpression(
             'STRFTIME(\'%H\', my_column) AS my_alias',
             MySqlite::hour('my_column', 'my_alias'),
         );
