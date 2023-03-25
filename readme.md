@@ -60,8 +60,6 @@ The optional `$as` parameter adds a column alias when set:
 
 ## Roadmap
 
-* Backfill tests
-
 There are more syntax differences between MySQL and SQLite that can be compensated for with minor syntax changes, which will be added as they are encountered.
 
 If you require a particular method conversion, raise an issue.
