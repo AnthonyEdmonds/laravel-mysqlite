@@ -28,7 +28,7 @@ Laravel MySqlite provides syntax for the following MySQL/SQLite conversions:
 | MySqlite::trim()             | `TRIM()`         | `TRIM()`, `LTRIM()`, `RTRIM()` | Pass literal strings with quotation marks, such as `'"String"'` |
 | MySqlite::year()             | `YEAR()`         | `STRFTIME()`                  |                                                                 |
 
-The helper returns a `DB::raw` expression, so you may use it directly inside queries:
+The helper returns an `Expression` with custom `__toString` behaviour, so you may use it directly inside queries:
 
 ```php
 DB::table('users')
