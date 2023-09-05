@@ -3,7 +3,6 @@
 namespace AnthonyEdmonds\LaravelMySqlite;
 
 use ErrorException;
-use Illuminate\Database\Query\Expression;
 use Illuminate\Support\Facades\DB;
 
 /**
@@ -80,7 +79,7 @@ class MySqlite
             throw new ErrorException("$type is not a recognised MySQL cast type");
         }
 
-        return DB::raw(
+        return self::raw(
             DB::getDefaultConnection() === 'sqlite'
                 ? "CAST($column AS ".self::CASTS_SQLITE[$type].')'.self::as($as)
                 : "CAST($column AS $type)".self::as($as)
@@ -91,7 +90,7 @@ class MySqlite
 
     public static function dateFormat(string $column, string $format, string $as = null): Expression
     {
-        return DB::raw(
+        return self::raw(
             DB::getDefaultConnection() === 'sqlite'
                 ? "STRFTIME('$format', $column)".self::as($as)
                 : "DATE_FORMAT($column, '$format')".self::as($as)
@@ -100,7 +99,7 @@ class MySqlite
 
     public static function year(string $column, string $as = null): Expression
     {
-        return DB::raw(
+        return self::raw(
             DB::getDefaultConnection() === 'sqlite'
                 ? "STRFTIME('%Y', $column)".self::as($as)
                 : "YEAR($column)".self::as($as)
@@ -109,7 +108,7 @@ class MySqlite
 
     public static function month(string $column, string $as = null): Expression
     {
-        return DB::raw(
+        return self::raw(
             DB::getDefaultConnection() === 'sqlite'
                 ? "STRFTIME('%m', $column)".self::as($as)
                 : "MONTH($column)".self::as($as)
@@ -118,7 +117,7 @@ class MySqlite
 
     public static function day(string $column, string $as = null): Expression
     {
-        return DB::raw(
+        return self::raw(
             DB::getDefaultConnection() === 'sqlite'
                 ? "STRFTIME('%d', $column)".self::as($as)
                 : "DAY($column)".self::as($as)
@@ -127,7 +126,7 @@ class MySqlite
 
     public static function hour(string $column, string $as = null): Expression
     {
-        return DB::raw(
+        return self::raw(
             DB::getDefaultConnection() === 'sqlite'
                 ? "STRFTIME('%H', $column)".self::as($as)
                 : "HOUR($column)".self::as($as)
@@ -153,12 +152,12 @@ class MySqlite
             $sql = "TRIM($side $needle FROM $haystack)".self::as($as);
         }
 
-        return DB::raw($sql);
+        return self::raw($sql);
     }
 
     public static function concat(array $columns, string $as = null): Expression
     {
-        return DB::raw(
+        return self::raw(
             DB::getDefaultConnection() === 'sqlite'
                 ? implode(' || ', $columns).self::as($as)
                 : 'CONCAT('.implode(',', $columns).')'.self::as($as)
@@ -170,19 +169,24 @@ class MySqlite
         return 
             DB::getDefaultConnection() === 'sqlite'
                 ? self::trim('""""', $column, $as)
-                : DB::raw("JSON_UNQUOTE($column)".self::as($as));
+                : self::raw("JSON_UNQUOTE($column)".self::as($as));
     }
 
     /* Utilities ============================= */
     public static function setAutoIncrement(string $table, int $value = 1): Expression
     {
         return DB::getDefaultConnection() === 'sqlite'
-            ? DB::raw("UPDATE sqlite_sequence SET seq = $value WHERE name = '$table'")
-            : DB::raw("ALTER TABLE $table AUTO_INCREMENT = $value");
+            ? self::raw("UPDATE sqlite_sequence SET seq = $value WHERE name = '$table'")
+            : self::raw("ALTER TABLE $table AUTO_INCREMENT = $value");
     }
 
     protected static function as(string|null $as = null): string
     {
         return $as !== null ? " AS $as" : '';
+    }
+    
+    public static function raw(string $expression): Expression
+    {
+        return new Expression($expression);
     }
 }
