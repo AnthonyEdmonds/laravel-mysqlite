@@ -2,7 +2,7 @@
 
 namespace AnthonyEdmonds\LaravelMySqlite\Tests;
 
-use Illuminate\Database\Query\Expression;
+use AnthonyEdmonds\LaravelMySqlite\Expression;
 use Illuminate\Database\Query\Grammars\Grammar;
 use Illuminate\Support\Facades\DB;
 use Orchestra\Testbench\TestCase as BaseTestCase;

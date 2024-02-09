@@ -60,7 +60,6 @@ class MySqlite
         self::BINARY => 'TEXT',
     ];
 
-    /* Strings =============================== */
     const TRIM_BOTH = 'BOTH';
 
     const TRIM_LEADING = 'LEADING';
@@ -87,7 +86,6 @@ class MySqlite
     }
 
     /* Dates ================================= */
-
     public static function dateFormat(string $column, string $format, string $as = null): Expression
     {
         return self::raw(
@@ -188,5 +186,22 @@ class MySqlite
     public static function raw(string $expression): Expression
     {
         return new Expression($expression);
+    }
+
+    public static function disableForeignKeys(): Expression
+    {
+        return self::foreignKeys(0);
+    }
+
+    public static function enableForeignKeys(): Expression
+    {
+        return self::foreignKeys(1);
+    }
+
+    protected static function foreignKeys(int $mode): Expression
+    {
+        return DB::getDefaultConnection() === 'sqlite'
+            ? self::raw("PRAGMA foreign_keys = $mode")
+            : self::raw("SET FOREIGN_KEY_CHECKS=$mode");
     }
 }
