@@ -88,8 +88,15 @@ class MySqlite
     /* Dates ================================= */
     public static function dateFormat(string $column, string $format, string $as = null): Expression
     {
+        $isSqlite = DB::getDefaultConnection() === 'sqlite';
+
+        if ($isSqlite === true) {
+            $format = str_replace('%i', '%M', $format);
+
+        }
+
         return self::raw(
-            DB::getDefaultConnection() === 'sqlite'
+            $isSqlite === true
                 ? "STRFTIME('$format', $column)".self::as($as)
                 : "DATE_FORMAT($column, '$format')".self::as($as)
         );
@@ -164,7 +171,7 @@ class MySqlite
 
     public static function jsonUnquote(string $column, string $as = null): Expression
     {
-        return 
+        return
             DB::getDefaultConnection() === 'sqlite'
                 ? self::trim('""""', $column, $as)
                 : self::raw("JSON_UNQUOTE($column)".self::as($as));
@@ -182,7 +189,7 @@ class MySqlite
     {
         return $as !== null ? " AS $as" : '';
     }
-    
+
     public static function raw(string $expression): Expression
     {
         return new Expression($expression);

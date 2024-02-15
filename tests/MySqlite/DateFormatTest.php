@@ -32,8 +32,8 @@ class DateFormatTest extends TestCase
         $this->asSqlite();
 
         $this->assertQueryExpression(
-            'STRFTIME(\'format\', my_column)',
-            MySqlite::dateFormat('my_column', 'format'),
+            'STRFTIME(\'format %M\', my_column)',
+            MySqlite::dateFormat('my_column', 'format %i'),
         );
     }
 
