@@ -18,25 +18,25 @@ use Illuminate\Support\Facades\DB;
 class MySqlite
 {
     /* Casts ================================= */
-    const DATE = 'DATE';
+    const string DATE = 'DATE';
 
-    const DATETIME = 'DATETIME';
+    const string DATETIME = 'DATETIME';
 
-    const DECIMAL = 'DECIMAL';
+    const string DECIMAL = 'DECIMAL';
 
-    const TIME = 'TIME';
+    const string TIME = 'TIME';
 
-    const CHAR = 'CHAR';
+    const string CHAR = 'CHAR';
 
-    const NCHAR = 'NCHAR';
+    const string NCHAR = 'NCHAR';
 
-    const SIGNED = 'SIGNED';
+    const string SIGNED = 'SIGNED';
 
-    const UNSIGNED = 'UNSIGNED';
+    const string UNSIGNED = 'UNSIGNED';
 
-    const BINARY = 'BINARY';
+    const string BINARY = 'BINARY';
 
-    const CASTS_MYSQL = [
+    const array CASTS_MYSQL = [
         self::DATE,
         self::DATETIME,
         self::DECIMAL,
@@ -48,7 +48,7 @@ class MySqlite
         self::BINARY,
     ];
 
-    const CASTS_SQLITE = [
+    const array CASTS_SQLITE = [
         self::DATE => 'NUMERIC',
         self::DATETIME => 'NUMERIC',
         self::DECIMAL => 'NUMERIC',
@@ -60,19 +60,19 @@ class MySqlite
         self::BINARY => 'TEXT',
     ];
 
-    const TRIM_BOTH = 'BOTH';
+    const string TRIM_BOTH = 'BOTH';
 
-    const TRIM_LEADING = 'LEADING';
+    const string TRIM_LEADING = 'LEADING';
 
-    const TRIM_TRAILING = 'TRAILING';
+    const string TRIM_TRAILING = 'TRAILING';
 
-    const TRIM_MODES = [
+    const array TRIM_MODES = [
         self::TRIM_BOTH,
         self::TRIM_LEADING,
         self::TRIM_TRAILING,
     ];
 
-    public static function cast(string $column, string $type, string $as = null): Expression
+    public static function cast(string $column, string $type, ?string $as = null): Expression
     {
         if (in_array($type, self::CASTS_MYSQL) === false) {
             throw new ErrorException("$type is not a recognised MySQL cast type");
@@ -86,13 +86,21 @@ class MySqlite
     }
 
     /* Dates ================================= */
-    public static function dateFormat(string $column, string $format, string $as = null): Expression
+    public static function dateDiff(string $fromColumn, string $toColumn, ?string $as = null): Expression
+    {
+        return self::raw(
+            DB::getDefaultConnection() === 'sqlite'
+                ? "(JULIANDAY($toColumn) - JULIANDAY($fromColumn))".self::as($as)
+                : "DATEDIFF($fromColumn, $toColumn)".self::as($as)
+        );
+    }
+
+    public static function dateFormat(string $column, string $format, ?string $as = null): Expression
     {
         $isSqlite = DB::getDefaultConnection() === 'sqlite';
 
         if ($isSqlite === true) {
             $format = str_replace('%i', '%M', $format);
-
         }
 
         return self::raw(
@@ -102,7 +110,7 @@ class MySqlite
         );
     }
 
-    public static function year(string $column, string $as = null): Expression
+    public static function year(string $column, ?string $as = null): Expression
     {
         return self::raw(
             DB::getDefaultConnection() === 'sqlite'
@@ -111,7 +119,7 @@ class MySqlite
         );
     }
 
-    public static function month(string $column, string $as = null): Expression
+    public static function month(string $column, ?string $as = null): Expression
     {
         return self::raw(
             DB::getDefaultConnection() === 'sqlite'
@@ -120,7 +128,7 @@ class MySqlite
         );
     }
 
-    public static function day(string $column, string $as = null): Expression
+    public static function day(string $column, ?string $as = null): Expression
     {
         return self::raw(
             DB::getDefaultConnection() === 'sqlite'
@@ -129,7 +137,7 @@ class MySqlite
         );
     }
 
-    public static function hour(string $column, string $as = null): Expression
+    public static function hour(string $column, ?string $as = null): Expression
     {
         return self::raw(
             DB::getDefaultConnection() === 'sqlite'
@@ -142,7 +150,7 @@ class MySqlite
     public static function trim(
         string $needle,
         string|Expression $haystack,
-        string $as = null,
+        ?string $as = null,
         string $side = self::TRIM_BOTH,
     ): Expression {
         if (DB::getDefaultConnection() === 'sqlite') {
@@ -160,7 +168,7 @@ class MySqlite
         return self::raw($sql);
     }
 
-    public static function concat(array $columns, string $as = null): Expression
+    public static function concat(array $columns, ?string $as = null): Expression
     {
         return self::raw(
             DB::getDefaultConnection() === 'sqlite'
@@ -169,7 +177,7 @@ class MySqlite
         );
     }
 
-    public static function jsonUnquote(string $column, string $as = null): Expression
+    public static function jsonUnquote(string $column, ?string $as = null): Expression
     {
         return
             DB::getDefaultConnection() === 'sqlite'
@@ -185,7 +193,7 @@ class MySqlite
             : self::raw("ALTER TABLE $table AUTO_INCREMENT = $value");
     }
 
-    protected static function as(string|null $as = null): string
+    protected static function as(?string $as = null): string
     {
         return $as !== null ? " AS $as" : '';
     }
