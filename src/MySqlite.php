@@ -18,25 +18,25 @@ use Illuminate\Support\Facades\DB;
 class MySqlite
 {
     /* Casts ================================= */
-    const string DATE = 'DATE';
+    public const string DATE = 'DATE';
 
-    const string DATETIME = 'DATETIME';
+    public const string DATETIME = 'DATETIME';
 
-    const string DECIMAL = 'DECIMAL';
+    public const string DECIMAL = 'DECIMAL';
 
-    const string TIME = 'TIME';
+    public const string TIME = 'TIME';
 
-    const string CHAR = 'CHAR';
+    public const string CHAR = 'CHAR';
 
-    const string NCHAR = 'NCHAR';
+    public const string NCHAR = 'NCHAR';
 
-    const string SIGNED = 'SIGNED';
+    public const string SIGNED = 'SIGNED';
 
-    const string UNSIGNED = 'UNSIGNED';
+    public const string UNSIGNED = 'UNSIGNED';
 
-    const string BINARY = 'BINARY';
+    public const string BINARY = 'BINARY';
 
-    const array CASTS_MYSQL = [
+    public const array CASTS_MYSQL = [
         self::DATE,
         self::DATETIME,
         self::DECIMAL,
@@ -48,7 +48,7 @@ class MySqlite
         self::BINARY,
     ];
 
-    const array CASTS_SQLITE = [
+    public const array CASTS_SQLITE = [
         self::DATE => 'NUMERIC',
         self::DATETIME => 'NUMERIC',
         self::DECIMAL => 'NUMERIC',
@@ -60,13 +60,13 @@ class MySqlite
         self::BINARY => 'TEXT',
     ];
 
-    const string TRIM_BOTH = 'BOTH';
+    public const string TRIM_BOTH = 'BOTH';
 
-    const string TRIM_LEADING = 'LEADING';
+    public const string TRIM_LEADING = 'LEADING';
 
-    const string TRIM_TRAILING = 'TRAILING';
+    public const string TRIM_TRAILING = 'TRAILING';
 
-    const array TRIM_MODES = [
+    public const array TRIM_MODES = [
         self::TRIM_BOTH,
         self::TRIM_LEADING,
         self::TRIM_TRAILING,
@@ -80,8 +80,8 @@ class MySqlite
 
         return self::raw(
             DB::getDefaultConnection() === 'sqlite'
-                ? "CAST($column AS ".self::CASTS_SQLITE[$type].')'.self::as($as)
-                : "CAST($column AS $type)".self::as($as)
+                ? "CAST($column AS " . self::CASTS_SQLITE[$type] . ')' . self::as($as)
+                : "CAST($column AS $type)" . self::as($as),
         );
     }
 
@@ -90,8 +90,8 @@ class MySqlite
     {
         return self::raw(
             DB::getDefaultConnection() === 'sqlite'
-                ? "(JULIANDAY($toColumn) - JULIANDAY($fromColumn))".self::as($as)
-                : "DATEDIFF($fromColumn, $toColumn)".self::as($as)
+                ? "(JULIANDAY($toColumn) - JULIANDAY($fromColumn))" . self::as($as)
+                : "DATEDIFF($fromColumn, $toColumn)" . self::as($as),
         );
     }
 
@@ -105,8 +105,8 @@ class MySqlite
 
         return self::raw(
             $isSqlite === true
-                ? "STRFTIME('$format', $column)".self::as($as)
-                : "DATE_FORMAT($column, '$format')".self::as($as)
+                ? "STRFTIME('$format', $column)" . self::as($as)
+                : "DATE_FORMAT($column, '$format')" . self::as($as),
         );
     }
 
@@ -114,8 +114,8 @@ class MySqlite
     {
         return self::raw(
             DB::getDefaultConnection() === 'sqlite'
-                ? "STRFTIME('%Y', $column)".self::as($as)
-                : "YEAR($column)".self::as($as)
+                ? "STRFTIME('%Y', $column)" . self::as($as)
+                : "YEAR($column)" . self::as($as),
         );
     }
 
@@ -123,8 +123,8 @@ class MySqlite
     {
         return self::raw(
             DB::getDefaultConnection() === 'sqlite'
-                ? "STRFTIME('%m', $column)".self::as($as)
-                : "MONTH($column)".self::as($as)
+                ? "STRFTIME('%m', $column)" . self::as($as)
+                : "MONTH($column)" . self::as($as),
         );
     }
 
@@ -132,8 +132,8 @@ class MySqlite
     {
         return self::raw(
             DB::getDefaultConnection() === 'sqlite'
-                ? "STRFTIME('%d', $column)".self::as($as)
-                : "DAY($column)".self::as($as)
+                ? "STRFTIME('%d', $column)" . self::as($as)
+                : "DAY($column)" . self::as($as),
         );
     }
 
@@ -141,8 +141,8 @@ class MySqlite
     {
         return self::raw(
             DB::getDefaultConnection() === 'sqlite'
-                ? "STRFTIME('%H', $column)".self::as($as)
-                : "HOUR($column)".self::as($as)
+                ? "STRFTIME('%H', $column)" . self::as($as)
+                : "HOUR($column)" . self::as($as),
         );
     }
 
@@ -160,9 +160,9 @@ class MySqlite
                 default => 'TRIM',
             };
 
-            $sql = "$method($haystack, $needle)".self::as($as);
+            $sql = "$method($haystack, $needle)" . self::as($as);
         } else {
-            $sql = "TRIM($side $needle FROM $haystack)".self::as($as);
+            $sql = "TRIM($side $needle FROM $haystack)" . self::as($as);
         }
 
         return self::raw($sql);
@@ -172,8 +172,8 @@ class MySqlite
     {
         return self::raw(
             DB::getDefaultConnection() === 'sqlite'
-                ? implode(' || ', $columns).self::as($as)
-                : 'CONCAT('.implode(',', $columns).')'.self::as($as)
+                ? implode(' || ', $columns) . self::as($as)
+                : 'CONCAT(' . implode(',', $columns) . ')' . self::as($as),
         );
     }
 
@@ -182,7 +182,7 @@ class MySqlite
         return
             DB::getDefaultConnection() === 'sqlite'
                 ? self::trim('""""', $column, $as)
-                : self::raw("JSON_UNQUOTE($column)".self::as($as));
+                : self::raw("JSON_UNQUOTE($column)" . self::as($as));
     }
 
     /* Utilities ============================= */

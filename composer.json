@@ -33,9 +33,9 @@
         "illuminate/support": "^11"
     },
     "require-dev": {
+        "larastan/larastan": "^3",
+        "laravel/pint": "^1",
         "orchestra/testbench": "^9",
-        "phpstan/phpstan": "^1",
-        "phpunit/phpunit": "^11",
-        "laravel/pint": "^1"
+        "phpunit/phpunit": "^11"
     }
 }
