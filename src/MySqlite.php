@@ -179,10 +179,30 @@ class MySqlite
 
     public static function jsonUnquote(string $column, ?string $as = null): Expression
     {
-        return
-            DB::getDefaultConnection() === 'sqlite'
-                ? self::trim('""""', $column, $as)
-                : self::raw("JSON_UNQUOTE($column)" . self::as($as));
+        return DB::getDefaultConnection() === 'sqlite'
+            ? self::trim('""""', $column, $as)
+            : self::raw("JSON_UNQUOTE($column)" . self::as($as));
+    }
+
+    public static function mid(
+        string $column,
+        Expression|string|int $start,
+        Expression|string|int|null $length = null,
+        ?string $as = null,
+    ): Expression {
+        return self::raw(
+            implode([
+                DB::getDefaultConnection() === 'sqlite'
+                    ? 'SUBSTR'
+                    : 'MID',
+                "($column, $start",
+                $length !== null
+                    ? ", $length"
+                    : '',
+                ')',
+                self::as($as),
+            ]),
+        );
     }
 
     /* Utilities ============================= */
