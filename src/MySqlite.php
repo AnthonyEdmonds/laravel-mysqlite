@@ -215,6 +215,28 @@ class MySqlite
     }
 
     /* Utilities ============================= */
+    public static function disableForeignKeys(): Expression
+    {
+        return self::foreignKeys(0);
+    }
+
+    public static function enableForeignKeys(): Expression
+    {
+        return self::foreignKeys(1);
+    }
+
+    public static function isNull(string $column, string $value, ?string $as = null): Expression
+    {
+        $term = DB::getDefaultConnection() === 'sqlite' ? 'IFNULL' : 'ISNULL';
+
+        return self::raw("$term($column, $value)" . self::as($as));
+    }
+
+    public static function raw(string $expression): Expression
+    {
+        return new Expression($expression);
+    }
+
     public static function setAutoIncrement(string $table, int $value = 1): Expression
     {
         return DB::getDefaultConnection() === 'sqlite'
@@ -225,21 +247,6 @@ class MySqlite
     protected static function as(?string $as = null): string
     {
         return $as !== null ? " AS $as" : '';
-    }
-
-    public static function raw(string $expression): Expression
-    {
-        return new Expression($expression);
-    }
-
-    public static function disableForeignKeys(): Expression
-    {
-        return self::foreignKeys(0);
-    }
-
-    public static function enableForeignKeys(): Expression
-    {
-        return self::foreignKeys(1);
     }
 
     protected static function foreignKeys(int $mode): Expression
