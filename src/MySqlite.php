@@ -146,6 +146,15 @@ class MySqlite
         );
     }
 
+    public static function weekday(string $column, ?string $as = null): Expression
+    {
+        return self::raw(
+            DB::getDefaultConnection() === 'sqlite'
+                ? "(STRFTIME('%u', $column) - 1)" . self::as($as)
+                : "WEEKDAY($column)" . self::as($as),
+        );
+    }
+
     /* Strings =============================== */
     public static function trim(
         string $needle,

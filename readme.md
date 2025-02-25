@@ -30,6 +30,7 @@ Laravel MySqlite provides syntax for the following MySQL/SQLite conversions:
 | MySqlite::month()               | `MONTH()`                    | `STRFTIME()`                        |                                                                 |
 | MySqlite::setAutoIncrement()    | `ALTER TABLE...`             | `UPDATE sqlite_sequence...`         | Used as a standalone statement                                  |
 | MySqlite::trim()                | `TRIM()`                     | `TRIM()`, `LTRIM()`, `RTRIM()`      | Pass literal strings with quotation marks, such as `'"String"'` |
+| MySqlite::weekday()             | `WEEKDAY(column)`            | `STRFTIME(%u, column) - 1`          |                                                                 |
 | MySqlite::year()                | `YEAR()`                     | `STRFTIME()`                        |                                                                 |
 
 The helper returns an `Expression` with custom `__toString` behaviour, so you may use it directly inside queries:
