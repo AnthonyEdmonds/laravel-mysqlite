@@ -18,6 +18,10 @@ abstract class TestCase extends BaseTestCase
             ->andReturnUsing(function (string $sql) {
                 return new Expression($sql);
             });
+
+        DB::partialMock()
+            ->shouldReceive('getQueryGrammar')
+            ->andReturn(new Grammar());
     }
 
     protected function asSqlite(): void

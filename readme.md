@@ -15,21 +15,22 @@ Calling the `MySqlite::`  helper will provide the correct syntax for the default
 
 Laravel MySqlite provides syntax for the following MySQL/SQLite conversions:
 
-| MySqlite Method                 | MySQL Syntax               | SQLite Syntax                       | Notes                                                           |
-|---------------------------------|----------------------------|-------------------------------------|-----------------------------------------------------------------|
-| MySqlite::cast()                | `CAST()`                   | `CAST()`                            | Must be a value from `MySqlite::CASTS_MYSQL`                    |
-| MySqlite::concat()              | `CONCAT()`                 | `\|\|`                              | Pass literal strings with quotation marks, such as `'"String"'` |
-| MySqlite::dateDiff()            | `DATE_DIFF($from, $to)`    | `JULIANDAY($from) - JULIANDAY($to)` |                                                                 |
-| MySqlite::dateFormat()          | `DATE_FORMAT()`            | `STRFTIME()`                        | Use date formats supported by both MySQL and SQLite             |
-| MySqlite::day()                 | `DAY()`                    | `STRFTIME()`                        |                                                                 |
-| MySqlite::disableForeignKeys()  | `SET FOREIGN_KEY_CHECKS=0` | `PRAGMA foreign_keys = 0`           |                                                                 | 
-| MySqlite::enableForeignKeys()   | `SET FOREIGN_KEY_CHECKS=1` | `PRAGMA foreign_keys = 1`           |                                                                 |
-| MySqlite::hour()                | `HOUR()`                   | `STRFTIME()`                        |                                                                 |
-| MySqlite::jsonUnquote()         | `JSON_UNQUOTE()`           | `TRIM(")`                           | Performs a trim on qutoation marks                              |
-| MySqlite::month()               | `MONTH()`                  | `STRFTIME()`                        |                                                                 |
-| MySqlite::setAutoIncrement()    | `ALTER TABLE...`           | `UPDATE sqlite_sequence...`         | Used as a standalone statement                                  |
-| MySqlite::trim()                | `TRIM()`                   | `TRIM()`, `LTRIM()`, `RTRIM()`      | Pass literal strings with quotation marks, such as `'"String"'` |
-| MySqlite::year()                | `YEAR()`                   | `STRFTIME()`                        |                                                                 |
+| MySqlite Method                 | MySQL Syntax                 | SQLite Syntax                       | Notes                                                           |
+|---------------------------------|------------------------------|-------------------------------------|-----------------------------------------------------------------|
+| MySqlite::cast()                | `CAST()`                     | `CAST()`                            | Must be a value from `MySqlite::CASTS_MYSQL`                    |
+| MySqlite::concat()              | `CONCAT()`                   | `\|\|`                              | Pass literal strings with quotation marks, such as `'"String"'` |
+| MySqlite::dateDiff()            | `DATE_DIFF($from, $to)`      | `JULIANDAY($from) - JULIANDAY($to)` |                                                                 |
+| MySqlite::dateFormat()          | `DATE_FORMAT()`              | `STRFTIME()`                        | Use date formats supported by both MySQL and SQLite             |
+| MySqlite::day()                 | `DAY()`                      | `STRFTIME()`                        |                                                                 |
+| MySqlite::disableForeignKeys()  | `SET FOREIGN_KEY_CHECKS=0`   | `PRAGMA foreign_keys = 0`           |                                                                 | 
+| MySqlite::enableForeignKeys()   | `SET FOREIGN_KEY_CHECKS=1`   | `PRAGMA foreign_keys = 1`           |                                                                 |
+| MySqlite::hour()                | `HOUR()`                     | `STRFTIME()`                        |                                                                 |
+| MySqlite::jsonUnquote()         | `JSON_UNQUOTE()`             | `TRIM(")`                           | Performs a trim on qutoation marks                              |
+| MySqlite::mid()                 | `MID(column, start, length)` | `SUBSTR(column, start, length)`     |                                                                 |
+| MySqlite::month()               | `MONTH()`                    | `STRFTIME()`                        |                                                                 |
+| MySqlite::setAutoIncrement()    | `ALTER TABLE...`             | `UPDATE sqlite_sequence...`         | Used as a standalone statement                                  |
+| MySqlite::trim()                | `TRIM()`                     | `TRIM()`, `LTRIM()`, `RTRIM()`      | Pass literal strings with quotation marks, such as `'"String"'` |
+| MySqlite::year()                | `YEAR()`                     | `STRFTIME()`                        |                                                                 |
 
 The helper returns an `Expression` with custom `__toString` behaviour, so you may use it directly inside queries:
 
