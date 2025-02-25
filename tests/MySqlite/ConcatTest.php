@@ -27,7 +27,7 @@ class ConcatTest extends TestCase
             'CONCAT(first_column,"second_column",third_column) AS my_alias',
             MySqlite::concat(
                 ['first_column', '"second_column"', 'third_column'],
-                'my_alias'
+                'my_alias',
             ),
         );
     }
@@ -52,7 +52,7 @@ class ConcatTest extends TestCase
             'first_column || "second_column" || third_column AS my_alias',
             MySqlite::concat(
                 ['first_column', '"second_column"', 'third_column'],
-                'my_alias'
+                'my_alias',
             ),
         );
     }

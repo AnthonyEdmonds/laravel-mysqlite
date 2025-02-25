@@ -13,7 +13,7 @@ class SetAutoIncrementTest extends TestCase
 
         $this->assertQueryExpression(
             'ALTER TABLE my_table AUTO_INCREMENT = 3',
-            MySqlite::setAutoIncrement('my_table', 3)
+            MySqlite::setAutoIncrement('my_table', 3),
         );
     }
 
@@ -23,7 +23,7 @@ class SetAutoIncrementTest extends TestCase
 
         $this->assertQueryExpression(
             'UPDATE sqlite_sequence SET seq = 3 WHERE name = \'my_table\'',
-            MySqlite::setAutoIncrement('my_table', 3)
+            MySqlite::setAutoIncrement('my_table', 3),
         );
     }
 }

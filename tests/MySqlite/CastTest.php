@@ -4,7 +4,6 @@ namespace AnthonyEdmonds\LaravelMySqlite\Tests\MySqlite;
 
 use AnthonyEdmonds\LaravelMySqlite\MySqlite;
 use AnthonyEdmonds\LaravelMySqlite\Tests\TestCase;
-use Illuminate\Database\Query\Grammars\Grammar;
 
 class CastTest extends TestCase
 {
@@ -19,7 +18,7 @@ class CastTest extends TestCase
     public function testCreatesMySqlCast(): void
     {
         $this->asMySql();
-        
+
         $this->assertQueryExpression(
             'CAST(my_column AS CHAR)',
             MySqlite::cast('my_column', MySqlite::CHAR),

@@ -33,7 +33,7 @@ abstract class TestCase extends BaseTestCase
             ->shouldReceive('getDefaultConnection')
             ->andReturn('mysql');
     }
-    
+
     protected function assertQueryExpression(string $expected, Expression $actual): void
     {
         $this->assertEquals(

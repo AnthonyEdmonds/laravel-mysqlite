@@ -1,0 +1,11 @@
+{
+    "name": "laravel-mysqlite",
+    "scripts": {
+        "larastan": "php ./vendor/bin/phpstan analyse --memory-limit=256M",
+        "pint": "php ./vendor/bin/pint --preset=per",
+        "test": "php ./vendor/bin/phpunit"
+    },
+    "devDependencies": {
+        "husky": "^8"
+    }
+}

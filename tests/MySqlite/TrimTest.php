@@ -27,7 +27,7 @@ class TrimTest extends TestCase
                 '","',
                 'my_column',
                 'my_alias',
-                MySqlite::TRIM_LEADING
+                MySqlite::TRIM_LEADING,
             ),
         );
     }
@@ -52,7 +52,7 @@ class TrimTest extends TestCase
                 '","',
                 'my_column',
                 'my_alias',
-                MySqlite::TRIM_LEADING
+                MySqlite::TRIM_LEADING,
             ),
         );
     }
