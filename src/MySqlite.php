@@ -90,7 +90,7 @@ class MySqlite
     {
         return self::raw(
             DB::getDefaultConnection() === 'sqlite'
-                ? "(JULIANDAY($toColumn) - JULIANDAY($fromColumn))" . self::as($as)
+                ? "(JULIANDAY($fromColumn) - JULIANDAY($toColumn))" . self::as($as)
                 : "DATEDIFF($fromColumn, $toColumn)" . self::as($as),
         );
     }
