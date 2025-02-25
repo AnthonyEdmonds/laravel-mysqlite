@@ -19,7 +19,7 @@ Laravel MySqlite provides syntax for the following MySQL/SQLite conversions:
 |---------------------------------|------------------------------|-------------------------------------|------------------------------------------------------------------|
 | MySqlite::cast()                | `CAST()`                     | `CAST()`                            | Must be a value from `MySqlite::CASTS_MYSQL`                     |
 | MySqlite::concat()              | `CONCAT()`                   | `\|\|`                              | Pass literal strings with quotation marks, such as `'"String"'`  |
-| MySqlite::dateDiff()            | `DATE_DIFF($from, $to)`      | `JULIANDAY($to) - JULIANDAY($from)` |                                                                  |
+| MySqlite::dateDiff()            | `DATE_DIFF($from, $to)`      | `JULIANDAY($from) - JULIANDAY($to)` |                                                                  |
 | MySqlite::dateFormat()          | `DATE_FORMAT()`              | `STRFTIME()`                        | Use date formats supported by both MySQL and SQLite              |
 | MySqlite::day()                 | `DAY()`                      | `STRFTIME()`                        |                                                                  |
 | MySqlite::disableForeignKeys()  | `SET FOREIGN_KEY_CHECKS=0`   | `PRAGMA foreign_keys = 0`           |                                                                  | 

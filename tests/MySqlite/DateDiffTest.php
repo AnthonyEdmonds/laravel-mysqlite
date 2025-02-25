@@ -32,7 +32,7 @@ class DateDiffTest extends TestCase
         $this->asSqlite();
 
         $this->assertQueryExpression(
-            '(JULIANDAY(to_column) - JULIANDAY(from_column))',
+            '(JULIANDAY(from_column) - JULIANDAY(to_column))',
             MySqlite::dateDiff('from_column', 'to_column'),
         );
     }
@@ -42,7 +42,7 @@ class DateDiffTest extends TestCase
         $this->asSqlite();
 
         $this->assertQueryExpression(
-            '(JULIANDAY(to_column) - JULIANDAY(from_column)) AS my_alias',
+            '(JULIANDAY(from_column) - JULIANDAY(to_column)) AS my_alias',
             MySqlite::dateDiff('from_column', 'to_column', 'my_alias'),
         );
     }
