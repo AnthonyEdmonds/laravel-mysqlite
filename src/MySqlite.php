@@ -186,6 +186,15 @@ class MySqlite
         );
     }
 
+    public static function groupConcat(string $columns, ?string $separator, ?string $as = null): Expression
+    {
+        return self::raw(
+            DB::getDefaultConnection() === 'sqlite'
+                ? 'group_concat(' .$columns. ', '.$separator. ')' . self::as($as)
+                : 'GROUP_CONCAT(' .$columns. ', SEPARATOR '.$separator. ')' . self::as($as),
+        );
+    }
+
     public static function jsonUnquote(string $column, ?string $as = null): Expression
     {
         return DB::getDefaultConnection() === 'sqlite'
