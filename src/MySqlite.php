@@ -190,7 +190,7 @@ class MySqlite
     {
         return self::raw(
             DB::getDefaultConnection() === 'sqlite'
-                ? 'group_concat(' . $columns . ', '. $separator . ')' . self::as($as)
+                ? 'group_concat(' . $columns . ', ' . $separator . ')' . self::as($as)
                 : 'GROUP_CONCAT(' . $columns . ', SEPARATOR ' . $separator . ')' . self::as($as),
         );
     }
