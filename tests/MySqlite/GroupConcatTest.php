@@ -39,7 +39,7 @@ class GroupConcatTest extends TestCase
         $this->asSqlite();
 
         $this->assertQueryExpression(
-            'group_concat(first_column, :)',
+            'GROUP_CONCAT(first_column, :)',
             MySqlite::groupConcat(
                 ['first_column'],
                 ':',
@@ -52,7 +52,7 @@ class GroupConcatTest extends TestCase
         $this->asSqlite();
 
         $this->assertQueryExpression(
-            'group_concat(first_column, :) AS my_alias',
+            'GROUP_CONCAT(first_column, :) AS my_alias',
             MySqlite::groupConcat(
                 ['first_column'],
                 ':',
