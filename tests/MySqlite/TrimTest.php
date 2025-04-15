@@ -4,6 +4,7 @@ namespace AnthonyEdmonds\LaravelMySqlite\Tests\MySqlite;
 
 use AnthonyEdmonds\LaravelMySqlite\MySqlite;
 use AnthonyEdmonds\LaravelMySqlite\Tests\TestCase;
+use Illuminate\Support\Facades\DB;
 
 class TrimTest extends TestCase
 {
@@ -25,7 +26,7 @@ class TrimTest extends TestCase
             'TRIM(LEADING "," FROM my_column) AS my_alias',
             MySqlite::trim(
                 '","',
-                'my_column',
+                DB::raw('my_column'),
                 'my_alias',
                 MySqlite::TRIM_LEADING,
             ),

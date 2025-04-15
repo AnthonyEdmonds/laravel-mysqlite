@@ -2,9 +2,9 @@
 
 namespace AnthonyEdmonds\LaravelMySqlite\Tests\MySqlite;
 
-use AnthonyEdmonds\LaravelMySqlite\Expression;
 use AnthonyEdmonds\LaravelMySqlite\MySqlite;
 use AnthonyEdmonds\LaravelMySqlite\Tests\TestCase;
+use Illuminate\Support\Facades\DB;
 
 class MidTest extends TestCase
 {
@@ -13,8 +13,8 @@ class MidTest extends TestCase
         $this->asMySql();
 
         $this->assertQueryExpression(
-            'MID(my_column, 5, 3)',
-            MySqlite::mid('my_column', 5, 3),
+            'MID(my_column, 5)',
+            MySqlite::mid('my_column', 5),
         );
     }
 
@@ -34,7 +34,7 @@ class MidTest extends TestCase
 
         $this->assertQueryExpression(
             'SUBSTR(my_column, start_column, length_column)',
-            MySqlite::mid('my_column', new Expression('start_column'), new Expression('length_column')),
+            MySqlite::mid('my_column', DB::raw('start_column'), DB::raw('length_column')),
         );
     }
 
