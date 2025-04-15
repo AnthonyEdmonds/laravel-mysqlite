@@ -3,7 +3,7 @@
 namespace AnthonyEdmonds\LaravelMySqlite;
 
 use ErrorException;
-use Illuminate\Contracts\Database\Query\Expression;
+use Illuminate\Contracts\Database\Query\Expression as ExpressionContract;
 use Illuminate\Support\Facades\DB;
 
 /**
@@ -79,7 +79,7 @@ class MySqlite
             throw new ErrorException("$type is not a recognised MySQL cast type");
         }
 
-        return DB::raw(
+        return self::raw(
             DB::getDefaultConnection() === 'sqlite'
                 ? "CAST($column AS " . self::CASTS_SQLITE[$type] . ')' . self::as($as)
                 : "CAST($column AS $type)" . self::as($as),
@@ -89,7 +89,7 @@ class MySqlite
     /* Dates ================================= */
     public static function dateDiff(string $fromColumn, string $toColumn, ?string $as = null): Expression
     {
-        return DB::raw(
+        return self::raw(
             DB::getDefaultConnection() === 'sqlite'
                 ? "(JULIANDAY($fromColumn) - JULIANDAY($toColumn))" . self::as($as)
                 : "DATEDIFF($fromColumn, $toColumn)" . self::as($as),
@@ -104,7 +104,7 @@ class MySqlite
             $format = str_replace('%i', '%M', $format);
         }
 
-        return DB::raw(
+        return self::raw(
             $isSqlite === true
                 ? "STRFTIME('$format', $column)" . self::as($as)
                 : "DATE_FORMAT($column, '$format')" . self::as($as),
@@ -113,7 +113,7 @@ class MySqlite
 
     public static function year(string $column, ?string $as = null): Expression
     {
-        return DB::raw(
+        return self::raw(
             DB::getDefaultConnection() === 'sqlite'
                 ? "STRFTIME('%Y', $column)" . self::as($as)
                 : "YEAR($column)" . self::as($as),
@@ -122,7 +122,7 @@ class MySqlite
 
     public static function month(string $column, ?string $as = null): Expression
     {
-        return DB::raw(
+        return self::raw(
             DB::getDefaultConnection() === 'sqlite'
                 ? "STRFTIME('%m', $column)" . self::as($as)
                 : "MONTH($column)" . self::as($as),
@@ -131,7 +131,7 @@ class MySqlite
 
     public static function day(string $column, ?string $as = null): Expression
     {
-        return DB::raw(
+        return self::raw(
             DB::getDefaultConnection() === 'sqlite'
                 ? "STRFTIME('%d', $column)" . self::as($as)
                 : "DAY($column)" . self::as($as),
@@ -140,7 +140,7 @@ class MySqlite
 
     public static function hour(string $column, ?string $as = null): Expression
     {
-        return DB::raw(
+        return self::raw(
             DB::getDefaultConnection() === 'sqlite'
                 ? "STRFTIME('%H', $column)" . self::as($as)
                 : "HOUR($column)" . self::as($as),
@@ -149,7 +149,7 @@ class MySqlite
 
     public static function weekday(string $column, ?string $as = null): Expression
     {
-        return DB::raw(
+        return self::raw(
             DB::getDefaultConnection() === 'sqlite'
                 ? "(STRFTIME('%u', $column) - 1)" . self::as($as)
                 : "WEEKDAY($column)" . self::as($as),
@@ -159,7 +159,7 @@ class MySqlite
     /* Strings =============================== */
     public static function trim(
         string $needle,
-        string|Expression $haystack,
+        ExpressionContract|string $haystack,
         ?string $as = null,
         string $side = self::TRIM_BOTH,
     ): Expression {
@@ -177,12 +177,12 @@ class MySqlite
             $sql = "TRIM($side $needle FROM $haystack)" . self::as($as);
         }
 
-        return DB::raw($sql);
+        return self::raw($sql);
     }
 
     public static function concat(array $columns, ?string $as = null): Expression
     {
-        return DB::raw(
+        return self::raw(
             DB::getDefaultConnection() === 'sqlite'
                 ? implode(' || ', $columns) . self::as($as)
                 : 'CONCAT(' . implode(',', $columns) . ')' . self::as($as),
@@ -191,7 +191,7 @@ class MySqlite
 
     public static function groupConcat(array $columns, string $separator = ', ', ?string $as = null): Expression
     {
-        return DB::raw(
+        return self::raw(
             DB::getDefaultConnection() === 'sqlite'
                 ? 'GROUP_CONCAT(' . implode(', ', $columns) . ', ' . "'$separator'" . ')' . self::as($as)
                 : 'GROUP_CONCAT(' . implode(', ', $columns) . ' SEPARATOR ' . "'$separator'" . ')' . self::as($as),
@@ -202,19 +202,19 @@ class MySqlite
     {
         return DB::getDefaultConnection() === 'sqlite'
             ? self::trim('""""', $column, $as)
-            : DB::raw("JSON_UNQUOTE($column)" . self::as($as));
+            : self::raw("JSON_UNQUOTE($column)" . self::as($as));
     }
 
     public static function mid(
         string $column,
-        Expression|string|int $start,
-        Expression|string|int|null $length = null,
+        ExpressionContract|string|int $start,
+        ExpressionContract|string|int|null $length = null,
         ?string $as = null,
     ): Expression {
         $start = self::parseExpression($start);
         $length = self::parseExpression($length);
 
-        return DB::raw(
+        return self::raw(
             implode([
                 DB::getDefaultConnection() === 'sqlite'
                     ? 'SUBSTR'
@@ -244,14 +244,14 @@ class MySqlite
     {
         $term = DB::getDefaultConnection() === 'sqlite' ? 'IFNULL' : 'ISNULL';
 
-        return DB::raw("$term($column, $value)" . self::as($as));
+        return self::raw("$term($column, $value)" . self::as($as));
     }
 
     public static function setAutoIncrement(string $table, int $value = 1): Expression
     {
         return DB::getDefaultConnection() === 'sqlite'
-            ? DB::raw("UPDATE sqlite_sequence SET seq = $value WHERE name = '$table'")
-            : DB::raw("ALTER TABLE $table AUTO_INCREMENT = $value");
+            ? self::raw("UPDATE sqlite_sequence SET seq = $value WHERE name = '$table'")
+            : self::raw("ALTER TABLE $table AUTO_INCREMENT = $value");
     }
 
     protected static function as(?string $as = null): string
@@ -262,16 +262,21 @@ class MySqlite
     protected static function foreignKeys(int $mode): Expression
     {
         return DB::getDefaultConnection() === 'sqlite'
-            ? DB::raw("PRAGMA foreign_keys = $mode")
-            : DB::raw("SET FOREIGN_KEY_CHECKS=$mode");
+            ? self::raw("PRAGMA foreign_keys = $mode")
+            : self::raw("SET FOREIGN_KEY_CHECKS=$mode");
     }
 
-    protected static function parseExpression(Expression|string|int|null $expression): ?string
+    protected static function parseExpression(ExpressionContract|string|int|null $expression): ?string
     {
         return match (true) {
             $expression === null => null,
-            $expression instanceof Expression === true => $expression->getValue(DB::getQueryGrammar()),
+            $expression instanceof ExpressionContract === true => $expression->getValue(DB::getQueryGrammar()),
             default => (string) $expression,
         };
+    }
+
+    public static function raw(string $expression): Expression
+    {
+        return new Expression($expression);
     }
 }
