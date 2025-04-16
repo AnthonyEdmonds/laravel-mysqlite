@@ -2,10 +2,10 @@
 
 namespace AnthonyEdmonds\LaravelMySqlite;
 
-use Illuminate\Database\Query\Expression as QueryExpression;
+use Illuminate\Database\Query\Expression as BaseExpression;
 use Illuminate\Support\Facades\DB;
 
-class Expression extends QueryExpression
+class Expression extends BaseExpression
 {
     public function __toString(): string
     {

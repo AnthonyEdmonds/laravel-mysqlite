@@ -3,6 +3,7 @@
 namespace AnthonyEdmonds\LaravelMySqlite;
 
 use ErrorException;
+use Illuminate\Contracts\Database\Query\Expression as ExpressionContract;
 use Illuminate\Support\Facades\DB;
 
 /**
@@ -158,10 +159,12 @@ class MySqlite
     /* Strings =============================== */
     public static function trim(
         string $needle,
-        string|Expression $haystack,
+        ExpressionContract|string $haystack,
         ?string $as = null,
         string $side = self::TRIM_BOTH,
     ): Expression {
+        $haystack = self::parseExpression($haystack);
+
         if (DB::getDefaultConnection() === 'sqlite') {
             $method = match ($side) {
                 self::TRIM_LEADING => 'LTRIM',
@@ -204,10 +207,13 @@ class MySqlite
 
     public static function mid(
         string $column,
-        Expression|string|int $start,
-        Expression|string|int|null $length = null,
+        ExpressionContract|string|int $start,
+        ExpressionContract|string|int|null $length = null,
         ?string $as = null,
     ): Expression {
+        $start = self::parseExpression($start);
+        $length = self::parseExpression($length);
+
         return self::raw(
             implode([
                 DB::getDefaultConnection() === 'sqlite'
@@ -241,11 +247,6 @@ class MySqlite
         return self::raw("$term($column, $value)" . self::as($as));
     }
 
-    public static function raw(string $expression): Expression
-    {
-        return new Expression($expression);
-    }
-
     public static function setAutoIncrement(string $table, int $value = 1): Expression
     {
         return DB::getDefaultConnection() === 'sqlite'
@@ -263,5 +264,19 @@ class MySqlite
         return DB::getDefaultConnection() === 'sqlite'
             ? self::raw("PRAGMA foreign_keys = $mode")
             : self::raw("SET FOREIGN_KEY_CHECKS=$mode");
+    }
+
+    protected static function parseExpression(ExpressionContract|string|int|null $expression): ?string
+    {
+        return match (true) {
+            $expression === null => null,
+            $expression instanceof ExpressionContract === true => $expression->getValue(DB::getQueryGrammar()),
+            default => (string) $expression,
+        };
+    }
+
+    public static function raw(string $expression): Expression
+    {
+        return new Expression($expression);
     }
 }

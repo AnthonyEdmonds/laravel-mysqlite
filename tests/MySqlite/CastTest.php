@@ -4,12 +4,13 @@ namespace AnthonyEdmonds\LaravelMySqlite\Tests\MySqlite;
 
 use AnthonyEdmonds\LaravelMySqlite\MySqlite;
 use AnthonyEdmonds\LaravelMySqlite\Tests\TestCase;
+use ErrorException;
 
 class CastTest extends TestCase
 {
     public function testThrowsExceptionWhenWrongType(): void
     {
-        $this->expectException(\ErrorException::class);
+        $this->expectException(ErrorException::class);
         $this->expectExceptionMessage('Potato is not a recognised MySQL cast type');
 
         MySqlite::cast('my_column', 'Potato');

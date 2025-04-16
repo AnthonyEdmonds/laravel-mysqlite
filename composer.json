@@ -29,13 +29,13 @@
         "sort-packages": true
     },
     "require": {
-        "php": "^8.3",
-        "illuminate/support": "^11"
+        "php": "^8",
+        "illuminate/support": "^12"
     },
     "require-dev": {
         "larastan/larastan": "^3",
         "laravel/pint": "^1",
-        "orchestra/testbench": "^9",
-        "phpunit/phpunit": "^11"
+        "orchestra/testbench": "^10",
+        "phpunit/phpunit": "^12"
     }
 }
