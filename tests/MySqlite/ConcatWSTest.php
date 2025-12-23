@@ -12,9 +12,10 @@ class ConcatWSTest extends TestCase
         $this->asMySql();
 
         $this->assertQueryExpression(
-            'CONCAT_WS('', first_column,"second_column",third_column)',
+            'CONCAT_WS(\'\', first_column,"second_column",third_column)',
             MySqlite::concatWs(
-                ['first_column','"second_column"','third_column'],''
+                ['first_column','"second_column"','third_column'],
+                '',
             ),
         );
     }
@@ -24,7 +25,7 @@ class ConcatWSTest extends TestCase
         $this->asMySql();
 
         $this->assertQueryExpression(
-            'CONCAT_WS('', first_column,"second_column",third_column) AS my_alias',
+            'CONCAT_WS(\'\', first_column,"second_column",third_column) AS my_alias',
             MySqlite::concatWs(
                 ['first_column', '"second_column"', 'third_column'],
                 '',
@@ -38,10 +39,10 @@ class ConcatWSTest extends TestCase
         $this->asSqlite();
 
         $this->assertQueryExpression(
-            'first_column || "second_column" || third_column',
+            'first_column || \'\' || "second_column" || \'\' || third_column',
             MySqlite::concatWs(
                 ['first_column', '"second_column"', 'third_column'],
-                ''
+                '',
             ),
         );
     }
@@ -51,7 +52,7 @@ class ConcatWSTest extends TestCase
         $this->asSqlite();
 
         $this->assertQueryExpression(
-            'first_column || "second_column" || third_column AS my_alias',
+            'first_column || \'\' || "second_column" || \'\' || third_column AS my_alias',
             MySqlite::concatWs(
                 ['first_column', '"second_column"', 'third_column'],
                 '',
