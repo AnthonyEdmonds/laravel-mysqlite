@@ -19,6 +19,7 @@ Laravel MySqlite provides syntax for the following MySQL/SQLite conversions:
 |--------------------------------|--------------------------------------|--------------------------------------|-----------------------------------------------------------------|
 | MySqlite::cast()               | `CAST()`                             | `CAST()`                             | Must be a value from `MySqlite::CASTS_MYSQL`                    |
 | MySqlite::concat()             | `CONCAT()`                           | `\|\|`                               | Pass literal strings with quotation marks, such as `'"String"'` |
+| MySqlite::concatWs()           | `CONCAT_WS($separator, ...$columns)` | `CONCAT_WS($separator, ...$columns)` | Concatenate the given columns with a string separator           |
 | MySqlite::dateDiff()           | `DATE_DIFF($from, $to)`              | `JULIANDAY($from) - JULIANDAY($to)`  |                                                                 |
 | MySqlite::dateFormat()         | `DATE_FORMAT()`                      | `STRFTIME()`                         | Use date formats supported by both MySQL and SQLite             |
 | MySqlite::day()                | `DAY()`                              | `STRFTIME()`                         |                                                                 |
@@ -63,7 +64,15 @@ The column/columns value of a method accepts a string/array of:
 
 The optional `$as` parameter adds a column alias when set:
 
-`MySqlite::hour('users.created_at', 'potato') === HOUR(users.created_at) AS potato`
+```php
+// No alias
+MySqlite::hour('users.created_at');
+HOUR(users.created_at)
+
+// With alias
+MySqlite::hour('users.created_at', 'potato');
+HOUR(users.created_at) AS potato
+```
 
 ## Roadmap
 
