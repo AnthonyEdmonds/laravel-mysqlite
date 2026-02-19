@@ -189,6 +189,13 @@ class MySqlite
         );
     }
 
+    public static function concatWs(array $columns, string $separator = ', ', ?string $as = null): Expression
+    {
+        return self::raw(
+            'CONCAT_WS("' . $separator . '", ' . implode(', ', $columns) . ')' . self::as($as),
+        );
+    }
+
     public static function groupConcat(array $columns, string $separator = ', ', ?string $as = null): Expression
     {
         return self::raw(
