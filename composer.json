@@ -30,12 +30,12 @@
     },
     "require": {
         "php": "^8",
-        "illuminate/support": "^12"
+        "illuminate/support": "^13"
     },
     "require-dev": {
         "larastan/larastan": "^3",
         "laravel/pint": "^1",
-        "orchestra/testbench": "^10",
+        "orchestra/testbench": "^11",
         "phpunit/phpunit": "^12"
     }
 }
