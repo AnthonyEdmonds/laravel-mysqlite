@@ -30,7 +30,7 @@
     },
     "require": {
         "php": "^8",
-        "illuminate/support": "^13"
+        "illuminate/support": "^12|^13"
     },
     "require-dev": {
         "larastan/larastan": "^3",
