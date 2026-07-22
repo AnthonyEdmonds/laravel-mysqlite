@@ -2,6 +2,7 @@
 
 namespace AnthonyEdmonds\LaravelMySqlite;
 
+use Deprecated;
 use ErrorException;
 use Illuminate\Contracts\Database\Query\Expression as ExpressionContract;
 use Illuminate\Support\Facades\DB;
@@ -247,11 +248,15 @@ class MySqlite
         return self::foreignKeys(1);
     }
 
+    public static function ifNull(string $column, string $value, ?string $as = null): Expression
+    {
+        return self::raw("IFNULL($column, $value)" . self::as($as));
+    }
+
+    #[Deprecated('This is a misnomer of "ifNull"; use that instead! Replacing with ISNULL in next breaking version')]
     public static function isNull(string $column, string $value, ?string $as = null): Expression
     {
-        $term = DB::getDefaultConnection() === 'sqlite' ? 'IFNULL' : 'ISNULL';
-
-        return self::raw("$term($column, $value)" . self::as($as));
+        return self::raw("IFNULL($column, $value)" . self::as($as));
     }
 
     public static function setAutoIncrement(string $table, int $value = 1): Expression

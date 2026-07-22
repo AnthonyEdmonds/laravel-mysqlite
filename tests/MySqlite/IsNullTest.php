@@ -12,7 +12,7 @@ class IsNullTest extends TestCase
         $this->asMySql();
 
         $this->assertQueryExpression(
-            'ISNULL(my_column, my_value)',
+            'IFNULL(my_column, my_value)',
             MySqlite::isNull('my_column', 'my_value'),
         );
     }
@@ -22,7 +22,7 @@ class IsNullTest extends TestCase
         $this->asMySql();
 
         $this->assertQueryExpression(
-            'ISNULL(my_column, my_value) AS my_alias',
+            'IFNULL(my_column, my_value) AS my_alias',
             MySqlite::isNull('my_column', 'my_value', 'my_alias'),
         );
     }
