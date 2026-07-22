@@ -27,8 +27,9 @@ Laravel MySqlite provides syntax for the following MySQL/SQLite conversions:
 | MySqlite::enableForeignKeys()  | `SET FOREIGN_KEY_CHECKS=1`           | `PRAGMA foreign_keys = 1`            |                                                                 |
 | MySqlite::groupConcat()        | `GROUP_CONCAT($columns, $separator)` | `GROUP_CONCAT($columns, $separator)` | Pass literal strings with quotation marks, such as `'"String"'` |
 | MySqlite::hour()               | `HOUR()`                             | `STRFTIME()`                         |                                                                 |
-| MySqlite::isNull()             | `ISNULL($column, $value)`            | `IFNULL($column, $value)`            | Pass literal strings with quotation marks, such as `'"String"'` |
-| MySqlite::jsonUnquote()        | `JSON_UNQUOTE()`                     | `TRIM(")`                            | Performs a trim on qutoation marks                              |
+| MySqlite::ifNull()             | `IFNULL($column, $value)`            | `IFNULL($column, $value)`            | Pass literal strings with quotation marks, such as `'"String"'` |
+| MySqlite::isNull()             | `IFNULL($column, $value)`            | `IFNULL($column, $value)`            | Deprecated, to be replaced with ISNULL                          |
+| MySqlite::jsonUnquote()        | `JSON_UNQUOTE()`                     | `TRIM(")`                            | Performs a trim on quotation marks                              |
 | MySqlite::mid()                | `MID(column, start, length)`         | `SUBSTR(column, start, length)`      |                                                                 |
 | MySqlite::month()              | `MONTH()`                            | `STRFTIME()`                         |                                                                 |
 | MySqlite::setAutoIncrement()   | `ALTER TABLE...`                     | `UPDATE sqlite_sequence...`          | Used as a standalone statement                                  |
