@@ -17,6 +17,7 @@ Laravel MySqlite provides syntax for the following MySQL/SQLite conversions:
 
 | MySqlite Method                | MySQL Syntax                         | SQLite Syntax                        | Notes                                                           |
 |--------------------------------|--------------------------------------|--------------------------------------|-----------------------------------------------------------------|
+| MySqlite::boolean()            | `CASE WHEN 1 THEN "$yes" ELSE "$no"` | `CASE WHEN 1 THEN "$yes" ELSE "$no"` | Format an integer into a boolean string                         |
 | MySqlite::cast()               | `CAST()`                             | `CAST()`                             | Must be a value from `MySqlite::CASTS_MYSQL`                    |
 | MySqlite::concat()             | `CONCAT()`                           | `\|\|`                               | Pass literal strings with quotation marks, such as `'"String"'` |
 | MySqlite::concatWs()           | `CONCAT_WS($separator, ...$columns)` | `CONCAT_WS($separator, ...$columns)` | Concatenate the given columns with a string separator           |

@@ -74,6 +74,18 @@ class MySqlite
         self::TRIM_TRAILING,
     ];
 
+    /* Formatting ============================ */
+    public static function boolean(
+        string $column,
+        string $yes = 'Yes',
+        string $no = 'No',
+        ?string $as = null,
+    ): Expression {
+        return self::raw(
+            "CASE WHEN $column = 1 THEN \"$yes\" ELSE \"$no\" END" . self::as($as),
+        );
+    }
+
     public static function cast(string $column, string $type, ?string $as = null): Expression
     {
         if (in_array($type, self::CASTS_MYSQL) === false) {
